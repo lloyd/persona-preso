@@ -20,9 +20,11 @@
 
 	<!-- Style theme. More available in /themes/style/ or create your own. -->
 	<link rel="stylesheet" href="themes/style/swiss.css">
-	
+
 	<!-- Transition theme. More available in /themes/transition/ or create your own. -->
 	<link rel="stylesheet" href="themes/transition/horizontal-slide.css">
+
+	<link rel="stylesheet" href="stuff/prettify.css">
 
 	<!-- Required Modernizr file -->
 	<script src="modernizr.custom.js"></script>
@@ -72,11 +74,10 @@
     * Use Persona instead of login / password
       + Easy to integrate
       + Just Works
-      + 
 -->
 
 <section class="slide">
-	<h2>Social Sign-In Only Looses Users</h2>
+	<h2>Social-Only Looses Users</h2>
   <img src="i/social_sign_in.png">
   <blockquote cite="http://blog.mailchimp.com/social-login-buttons-arent-worth-it/">
     <p>“I was shocked to see that just 3.4% of the people that visited the login page actually used Facebook or Twitter to log in”</p>
@@ -89,8 +90,11 @@
 </section>
 
 <section class="slide">
-	<h2>Login / Password is a Minefield</h2>
+	<h2>Traditional Login is Hard</h2>
   <p><img src="i/minefield.png"></p>
+  <p class="slide" style="font-size: 2em; text-align: center; font-style: italic; margin-top: 2em;">
+    You need a backup, but building it yourself sucks.
+  </p>
 </section>
 
 <section class="slide">
@@ -101,16 +105,17 @@
 
 <section class="slide">
   <h2>Show Me: One Last Password</h2>
-  <br><br>
+  <img src="i/mozilla_persona.jpg">
+  <br>
   <img class="login_button one_last" src="i/email_sign_in_blue.png">
-  <br><br>
+  <br>
   <p style="text-align: center;"> that was fun, now log in <a href="http://bornthiswayfoundation.org/bus/register/new-york" target="_yourmomma">here</a>.
   <br><br>
   <p class="slide" style="text-align: center; font-style: italic;">Lady Gaga uses persona, Shouldn't you?</p>
 </section>
 
 <section class="slide">
-  <h2>Show Me: No New Passwords</h2>
+  <h2>Show Me: No More Passwords</h2>
   <br><br>
   <img class="login_button" src="i/email_sign_in_blue.png">
 </section>
@@ -118,7 +123,7 @@
 <section class="slide">
   <h2>Now You Own Me, right?</h2>
   <p>Kick persona to the curb:</p>
-  <br><tt>ALTER TABLE users ADD COLUMN(password varchar(128), verified boolean)</tt>
+  <br><pre><code class="prettyprint lang-sql">ALTER TABLE users ADD COLUMN(password varchar(128), verified boolean)</code></pre>
   <br><br><br><br>
   <p class="slide" style="font-size: 4em; font-weight: bold; text-align: center; font-style: italic;">Lock-in is bullshit</p>
 </section>
@@ -126,7 +131,7 @@
 <section class="slide">
   <h2>It's crazy hard to implement, right?</h2>
   <p class="slide">
-  <pre><code>
+  <pre><code class="prettyprint lang-html">
       &lt;script src="https://login.persona.org/include.js"&gt;&lt;/script&gt;
       &lt;script&gt;
       navigator.id.watch({
@@ -145,7 +150,7 @@
 <section class="slide">
   <h2>How about logout?</h2>
   <p class="slide">
-  <pre><code>
+  <pre><code class="prettyprint">
       &lt;script src="https://login.persona.org/include.js"&gt;&lt;/script&gt;
       &lt;script&gt;
       navigator.id.watch({
@@ -166,7 +171,7 @@
     <li> Never lynx
     <li> Requires cookie and javascript
   </ul>
-  <p style="font-size: 1.5em; font-weight: bold; text-align: center; font-style: italic;">&gt; 90% support</p>
+  <p style="font-size: 1.5em; text-align: center; font-style: italic;">&gt; 90% support</p>
 </section>
 
 <!-- End slides. -->
@@ -192,7 +197,6 @@
 	<input type="submit" value="Go">
 </form>
 
-<!-- deck.hash snippet -->
 <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
 
 <!-- End extension snippets. -->
@@ -227,6 +231,11 @@
   $(".login_button").click(function() {
     navigator.id.request();
   });
+</script>
+<script src="stuff/prettify.js"></script>
+<script src="stuff/lang-sql.js"></script>
+<script>
+prettyPrint();
 </script>
 </body>
 </html>
