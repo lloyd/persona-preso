@@ -6,10 +6,10 @@
 	<meta name="viewport" content="width=1024, user-scalable=no">
 
 	<title>Getting Users Signed In</title>
-	
+
 	<!-- Required stylesheet -->
 	<link rel="stylesheet" href="core/deck.core.css">
-	
+
 	<!-- Extension CSS files go here. Remove or add as needed. -->
 	<link rel="stylesheet" href="extensions/goto/deck.goto.css">
 	<link rel="stylesheet" href="extensions/menu/deck.menu.css">
@@ -121,7 +121,7 @@
 </section>
 
 <section class="slide">
-  <h2>Now You Own Me, right?</h2>
+  <h2>Migrating away from Persona</h2>
   <p>Kick persona to the curb:</p>
   <br><pre><code class="prettyprint lang-sql">ALTER TABLE users ADD COLUMN(password varchar(128), verified boolean)</code></pre>
   <br><br><br><br>
@@ -129,27 +129,33 @@
 </section>
 
 <section class="slide">
-  <h2>It's crazy hard to implement, right?</h2>
-  <p class="slide">
+  <h2>Implementing Persona Sign-in</h2>
   <pre><code class="prettyprint lang-html">
       &lt;script src="https://login.persona.org/include.js"&gt;&lt;/script&gt;
       &lt;script&gt;
-      navigator.id.watch({
-        onlogin: function(assertion) {
-          $.post('/login', { assertion: assertion }, function() {
-            document.location = document.location;
-          });
-        }
-      });
-      $(".login_button").on('click', function() { navigator.id.request(); });
+        navigator.id.watch({
+          loggedInUser: <%- JSON.stringify(email) %>,
+          onlogin: function(assertion) {
+            $.ajax({
+              url: '/auth', method: 'post', type: 'json',
+              data: { assertion: assertion },
+              success: function () {
+                document.location.reload();
+              }
+            });
+          }
+        });
+        $(".login_button").on('click', function() { navigator.id.request(); });
       &lt;/script&gt;
   </code></pre>
-  </p>
+
+  <p><a href="https://github.com/lloyd/node.js-persona-example"><tt>https://github.com/lloyd/node.js-persona-example</tt></a></p>
+
 </section>
 
 <section class="slide">
-  <h2>How about logout?</h2>
-  <p class="slide">
+  <h2>Implementing Persona Logout</h2>
+
   <pre><code class="prettyprint">
       &lt;script src="https://login.persona.org/include.js"&gt;&lt;/script&gt;
       &lt;script&gt;
@@ -160,7 +166,34 @@
       $(".logout_button").on('click', function() { navigator.id.logout(); });
       &lt;/script&gt;
   </code></pre>
-  </p>
+
+  <p><a href="https://github.com/lloyd/node.js-persona-example"><tt>https://github.com/lloyd/node.js-persona-example</tt></a></p>
+</section>
+
+<section class="slide">
+  <h2>Server-Side</h2>
+
+  <pre><code class="prettyprint">
+app.post('/auth', function(req, res) {
+  request.post({
+    url: 'https://login.persona.org/verify',
+    json: {
+      assertion: req.body.assertion,
+      audience: "http://127.0.0.1:3000"
+    }
+  }, function(e, r, body) {
+    if(body && body.email) {
+      req.session.email = body.email;
+      res.json({ success: true });
+    } else {
+      res.json({ success: false });
+    }
+  });
+});
+  </code></pre>
+
+  <p><a href="https://github.com/lloyd/node.js-persona-example"><tt>https://github.com/lloyd/node.js-persona-example</tt></a></p>
+
 </section>
 
 <section class="slide">
