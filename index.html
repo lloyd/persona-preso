@@ -118,15 +118,7 @@
 <section class="slide">
   <h2>Show Me: No More Passwords</h2>
   <br><br>
-  <img class="login_button" src="i/email_sign_in_blue.png">
-</section>
-
-<section class="slide">
-  <h2>Migrating away from Persona</h2>
-  <p>Kick persona to the curb:</p>
-  <br><pre><code class="prettyprint lang-sql">ALTER TABLE users ADD COLUMN(password varchar(128), verified boolean)</code></pre>
-  <br><br><br><br>
-  <p class="slide" style="font-size: 4em; font-weight: bold; text-align: center; font-style: italic;">Lock-in is bullshit</p>
+  <img class="login_button" src="i/signin_with_gmail.png">
 </section>
 
 <section class="slide">
@@ -198,6 +190,12 @@ app.post('/auth', function(req, res) {
 </section>
 
 <section class="slide">
+  <h2>Database Changes</h2>
+  <br><br><br><br>
+  <br><pre><code class="prettyprint lang-sql">ALTER TABLE user DROP COLUMN password</code></pre>
+</section>
+
+<section class="slide">
   <h2>Browser support?</h2>
   <ul>
     <li> Never < IE7
@@ -209,7 +207,20 @@ app.post('/auth', function(req, res) {
 </section>
 
 <section class="slide">
-  <h2>Persona Distilled</h2>
+  <h2>Sexy JavaScript Things</h2>
+  <ul>
+    <li style="margin: 2em 0;"><strong><a href="http://www.open-mike.org/entry/lifding-the-web">LIFD</a></strong>:
+      Building new browser features without actually building them.
+    <li style="margin: 2em 0;"><strong><a href="https://github.com/mozilla/jschannel">jschannel</a></strong>:
+      Quickly building inter-domain RPC with postMessage.
+    <li style="margin: 2em 0;"><strong><a href="https://github.com/lloyd/winchan">winchan</a></strong>:
+      Query into a cross domain window and get a response.
+    <li style="margin: 2em 0;"><strong><a href="https://github.com/bitwiseshiftleft/sjcl">In Browser Crypto</a></strong>: DSA 1024 key generation is < 500ms in mobile and IE7.
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>In summary...</h2>
   <br/><br/>
   <p style="font-size: 1.5em; text-align: center; font-style: italic;">
     Mozilla Persona is a new authentication system for the web.  It aims to
